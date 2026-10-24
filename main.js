@@ -5,7 +5,28 @@ const W = 720, H = 1280;
 const ASSET = window.ASSET_BASE || '../assets/';
 const FONT = 'GameFont,"PingFang SC","Microsoft YaHei","Noto Sans CJK SC","Noto Serif CJK SC",sans-serif';
 const WEAPONS = ['machinegun', 'shotgun', 'laser', 'missile'];
-const WNAME = { machinegun: '机枪', shotgun: '散弹', laser: '激光', missile: '导弹' };
+// ---- 语言包 zh / en ----
+const I18N = {
+  zh: { title: '打黑龙', best: '最高分  {0}', choose: '选择初始武器', locked: '未解锁', start: '开始游戏', sfxOn: '音效', sfxOff: '静音', langBtn: 'EN',
+    hint1: '拖动/←→ 移动 · 自动射击', hint2: '接住道具强化武器，击碎龙头或全部龙身即胜利', level: '第 {0} 关', pause: '暂停', resume: '继续', home: '返回主页',
+    rBottom: '黑龙冲到了底部！', rDead: '炮台被击毁了！', rHead: '击碎龙头！', rBody: '龙身全部击碎！',
+    shieldLeft: '再碎 {0} 节破盾', focusHead: '集火龙头！剩余 {0}', shieldBreak: '龙头护盾破碎！',
+    wUp: '{0} 升级 Lv.{1}', wNew: '解锁新武器：{0}', wSwap: '换武器：{0}', atk: '攻击 +', rate: '射速 +', hp: '生命 +1', shield: '护盾！',
+    clear: '第 {0} 关 通关！', score: '得分  {0}', newBest: '新纪录！', homeShort: '主页', next: '下一关', fail: '挑战失败', retry: '再来一次',
+    w: { machinegun: '机枪', shotgun: '散弹', laser: '激光', missile: '导弹' } },
+  en: { title: 'Black Dragon Blaster', best: 'Best  {0}', choose: 'Choose starting weapon', locked: 'Locked', start: 'START', sfxOn: 'Sound', sfxOff: 'Muted', langBtn: '中文',
+    hint1: 'Drag / ←→ to move · Auto-fire', hint2: 'Grab power-ups · Smash the head or all segments!', level: 'Level {0}', pause: 'Paused', resume: 'Resume', home: 'Main Menu',
+    rBottom: 'The dragon reached the bottom!', rDead: 'Your turret was destroyed!', rHead: 'Dragon head smashed!', rBody: 'Every segment smashed!',
+    shieldLeft: 'Break {0} more to drop the shield', focusHead: 'Hit the head! HP {0}', shieldBreak: 'Head shield broken!',
+    wUp: '{0} up to Lv.{1}', wNew: 'New weapon: {0}', wSwap: 'Weapon: {0}', atk: 'Attack +', rate: 'Fire rate +', hp: 'HP +1', shield: 'Shield!',
+    clear: 'Level {0} Clear!', score: 'Score  {0}', newBest: 'New record!', homeShort: 'Home', next: 'Next', fail: 'Defeated', retry: 'Retry',
+    w: { machinegun: 'MG', shotgun: 'Shotgun', laser: 'Laser', missile: 'Missile' } }
+};
+const LS_LANG = 'dahei_long_lang';
+let LANG = (() => { const v = localStorage.getItem(LS_LANG); if (v === 'zh' || v === 'en') return v; return /^zh/i.test(navigator.language || '') ? 'zh' : 'en'; })();
+const T = (k, ...a) => String(I18N[LANG][k]).replace(/\{(\d)\}/g, (m, i) => a[i]);
+const WNAME = new Proxy({}, { get: (o, w) => I18N[LANG].w[w] });
+window.__i18n = { get lang() { return LANG; }, set: l => { LANG = l; localStorage.setItem(LS_LANG, l); } };
 const ITEMS = ['item_weapon_crate', 'item_attack_up', 'item_firerate_up', 'item_health', 'item_shield', 'item_coin'];
 const LS_KEY = 'dahei_long_best', LS_MUTE = 'dahei_long_mute', LS_UNLOCK = 'dahei_long_unlocked', LS_WEAPON = 'dahei_long_weapon';
 const unlocked = () => { try { const a = JSON.parse(localStorage.getItem(LS_UNLOCK)); if (Array.isArray(a) && a.length) return a.filter(w => WEAPONS.includes(w)); } catch (e) {} return ['machinegun']; };
@@ -50,13 +71,15 @@ window.__sfx = SFX;
 const best = () => +(localStorage.getItem(LS_KEY) || 0);
 const saveBest = s => { if (s > best()) localStorage.setItem(LS_KEY, String(s)); };
 
-function txt(scene, x, y, s, size, color, stroke) {
-  return scene.add.text(x, y, s, { fontFamily: FONT, fontSize: size + 'px', fontStyle: 'bold', color: color || '#fff',
-    stroke: stroke || '#1a2340', strokeThickness: Math.max(3, size / 7) }).setOrigin(0.5);
+function fit(t, maxW) { t.maxW = maxW; t.setScale(1); if (maxW && t.width > maxW) t.setScale(maxW / t.width); return t; }
+function setT(t, s) { t.setText(s); return fit(t, t.maxW); }
+function txt(scene, x, y, s, size, color, stroke, maxW) {
+  return fit(scene.add.text(x, y, s, { fontFamily: FONT, fontSize: size + 'px', fontStyle: 'bold', color: color || '#fff',
+    stroke: stroke || '#1a2340', strokeThickness: Math.max(3, size / 7) }).setOrigin(0.5), maxW || W - 30);
 }
 function button(scene, x, y, key, label, scale, cb) {
   const b = scene.add.image(x, y, key).setScale(scale).setInteractive({ useHandCursor: true });
-  const t = txt(scene, x, y - 4, label, 40, '#fff');
+  const t = txt(scene, x, y - 4, label, 40, '#fff', null, b.displayWidth * 0.8); t.isBtn = b;
   b.on('pointerdown', () => { b.setScale(scale * 0.94); });
   b.on('pointerup', () => { b.setScale(scale); cb(); });
   b.on('pointerout', () => b.setScale(scale));
@@ -98,10 +121,10 @@ class Start extends Phaser.Scene {
     this.bgu = bg(this);
     const d = this.add.image(W / 2, 450, 'char_dragon_title').setScale(0.85);
     this.tweens.add({ targets: d, y: 430, duration: 1400, yoyo: true, repeat: -1, ease: 'Sine.inOut' });
-    txt(this, W / 2, 150, '打黑龙', 120, '#ffd94a', '#3a1a00');
-    txt(this, W / 2, 745, '最高分  ' + best(), 40, '#fff');
+    txt(this, W / 2, 150, T('title'), 120, '#ffd94a', '#3a1a00', 660);
+    txt(this, W / 2, 745, T('best', best()), 40, '#fff');
     const un = unlocked(); let sel = localStorage.getItem(LS_WEAPON); if (!un.includes(sel)) sel = 'machinegun';
-    txt(this, W / 2, 805, '选择初始武器', 28, '#ffe680');
+    txt(this, W / 2, 805, T('choose'), LANG === 'en' ? 34 : 28, '#ffe680', null, 680);
     const g = this.add.graphics();
     const draw = () => { g.clear(); WEAPONS.forEach((w, i) => { const x = 135 + i * 150, y = 895, on = w === sel;
       g.fillStyle(on ? 0xffd94a : 0x0e1a3a, on ? 0.95 : 0.5).fillRoundedRect(x - 64, y - 64, 128, 128, 18).lineStyle(4, on ? 0xffffff : 0x6b7aa0).strokeRoundedRect(x - 64, y - 64, 128, 128, 18); }); };
@@ -109,17 +132,21 @@ class Start extends Phaser.Scene {
       const x = 135 + i * 150, y = 885, ok = un.includes(w);
       const ic = this.add.image(x, y - 4, 'char_turret_' + w + '_lv1').setScale(0.36).setInteractive({ useHandCursor: ok });
       if (!ok) ic.setTint(0x333344).setAlpha(0.7);
-      txt(this, x, y + 48, ok ? WNAME[w] : '未解锁', 22, ok ? '#fff' : '#9aa');
+      txt(this, x, y + 48, ok ? WNAME[w] : T('locked'), LANG === 'en' && !ok ? 28 : 22, ok ? '#fff' : '#9aa', null, 120);
       ic.on('pointerup', () => { if (!ok) { this.cameras.main.shake(80, 0.004); return; } sel = w; localStorage.setItem(LS_WEAPON, w); SFX.play('pickup'); draw(); });
     });
     draw(); this.getSel = () => sel;
-    button(this, W / 2, 1035, 'ui_btn_green_large', '开始游戏', 1, () => { SFX.ensure(); this.scene.start('Game', { level: 1, score: 0, carry: { weapon: sel, wlv: 1 } }); });
+    button(this, W / 2, 1035, 'ui_btn_green_large', T('start'), 1, () => { SFX.ensure(); this.scene.start('Game', { level: 1, score: 0, carry: { weapon: sel, wlv: 1 } }); });
     const mb = this.add.image(640, 70, 'ui_btn_blue').setScale(0.55).setInteractive({ useHandCursor: true });
-    this.muteTxt = txt(this, 640, 66, SFX.muted ? '静音' : '音效', 30);
-    mb.on('pointerup', () => { SFX.ensure(); SFX.setMuted(!SFX.muted); this.muteTxt.setText(SFX.muted ? '静音' : '音效'); SFX.play('pickup'); });
+    this.muteTxt = txt(this, 640, 66, SFX.muted ? T('sfxOff') : T('sfxOn'), 30, '#fff', null, mb.displayWidth * 0.82);
+    mb.on('pointerup', () => { SFX.ensure(); SFX.setMuted(!SFX.muted); setT(this.muteTxt, SFX.muted ? T('sfxOff') : T('sfxOn')); SFX.play('pickup'); });
     this.input.once('pointerdown', () => SFX.ensure());
-    txt(this, W / 2, 1140, '拖动/←→ 移动 · 自动射击', 30, '#fff');
-    txt(this, W / 2, 1185, '接住道具强化武器，击碎龙头或全部龙身即胜利', 26, '#fff');
+    txt(this, W / 2, 1140, T('hint1'), 30, '#fff', null, 680);
+    txt(this, W / 2, 1185, T('hint2'), 26, '#fff', null, 680);
+    const lb = this.add.image(80, 70, 'ui_btn_blue').setScale(0.55).setInteractive({ useHandCursor: true });
+    txt(this, 80, 66, T('langBtn'), 30, '#fff', null, lb.displayWidth * 0.82);
+    lb.on('pointerup', () => { window.__i18n.set(LANG === 'zh' ? 'en' : 'zh'); document.title = T('title'); this.scene.restart(); });
+    document.title = T('title');
   }
   update(t, dt) { this.bgu(dt); }
 }
@@ -181,7 +208,7 @@ class Game extends Phaser.Scene {
     this.headD = 2300; // 龙头从左侧刚进入画面
     this.head = { kind: 'head', hp: c.headHp, max: c.headHp, r: 52, slot: 0, cur: 0, locked: true }; this.segTotal = c.segs;
     this.headShield = this.add.graphics().setDepth(5); // 固定提示条：位于顶部 HUD 下方（y≈172），龙身路径最高只到 y≈199，不会重叠
-    this.bannerBg = this.add.graphics().setDepth(99); this.headHpTxt = txt(this, W / 2, 169, '', 36, '#fff').setDepth(100); this.bannerHold = 0; this.bannerKey = '';
+    this.bannerBg = this.add.graphics().setDepth(99); this.headHpTxt = txt(this, W / 2, 169, '', 36, '#fff', null, W - 90).setDepth(100); this.bannerHold = 0; this.bannerKey = '';
     this.head.spr = this.add.sprite(0, 0, 'char_dragon_head').setScale(0.72);
     this.head.flash = this.add.sprite(0, 0, 'char_dragon_head').setScale(0.72).setTintFill(0xffffff).setAlpha(0);
     this.head.badge = this.add.graphics(); this.head.label = txt(this, 0, 0, '', 26);
@@ -222,20 +249,20 @@ class Game extends Phaser.Scene {
     this.add.image(170, 52, 'ui_hp_frame').setScale(1.1).setDepth(D);
     this.hpFill = this.add.image(102, 52, 'ui_hp_fill').setOrigin(0, 0.5).setScale(1.1).setDepth(D);
     this.hpTxt = txt(this, 262, 52, '', 24).setDepth(D);
-    this.scoreTxt = txt(this, 450, 52, '', 52).setDepth(D);
-    this.lvTxt = txt(this, 450, 100, '第 ' + this.level + ' 关', 24, '#ffe680').setDepth(D);
+    this.scoreTxt = txt(this, 450, 52, '', 52, '#fff', null, 300).setDepth(D);
+    this.lvTxt = txt(this, 450, 100, T('level', this.level), 24, '#ffe680').setDepth(D);
     const pb = this.add.image(660, 52, 'ui_btn_pause').setScale(1.05).setDepth(D).setInteractive({ useHandCursor: true });
     pb.on('pointerdown', (p, x, y, e) => { e.stopPropagation(); this.togglePause(); });
     this.add.image(85, 1225, 'ui_weapon_badge').setScale(1.05).setDepth(D);
-    this.wTxt = txt(this, 85, 1205, '', 28).setDepth(D);
+    this.wTxt = txt(this, 85, 1205, '', 28, '#fff', null, 118).setDepth(D);
     this.wlvTxt = txt(this, 85, 1245, '', 30, '#ffe14a').setDepth(D);
     this.toast = txt(this, W / 2, 760, '', 44, '#ffe14a').setDepth(D).setAlpha(0);
     this.pauseUI = this.add.container(0, 0).setDepth(200).setVisible(false);
     const dim = this.add.rectangle(0, 0, W, H, 0x000000, 0.55).setOrigin(0).setInteractive();
     const panel = this.add.nineslice(W / 2, 620, 'ui_panel_fail', null, 560, 520, 60, 60, 60, 60);
-    const t = txt(this, W / 2, 470, '暂停', 64);
-    const b1 = button(this, W / 2, 610, 'ui_btn_green', '继续', 1.2, () => this.togglePause());
-    const b2 = button(this, W / 2, 750, 'ui_btn_orange', '返回主页', 1, () => { this.scene.start('Start'); });
+    const t = txt(this, W / 2, 470, T('pause'), 64);
+    const b1 = button(this, W / 2, 610, 'ui_btn_green', T('resume'), 1.2, () => this.togglePause());
+    const b2 = button(this, W / 2, 750, 'ui_btn_orange', T('home'), 1, () => { this.scene.start('Start'); });
     this.pauseUI.add([dim, panel, t, b1.b, b1.t, b2.b, b2.t]);
     this.updateHUD();
   }
@@ -243,11 +270,11 @@ class Game extends Phaser.Scene {
     const f = Phaser.Math.Clamp(this.hp / this.maxHp, 0, 1);
     this.hpFill.setCrop(0, 0, 158 * f, 29);
     this.hpTxt.setText(this.hp + '/' + this.maxHp);
-    this.scoreTxt.setText(String(this.score));
-    this.wTxt.setText(WNAME[this.weapon]); this.wlvTxt.setText('Lv.' + this.wlv);
+    setT(this.scoreTxt, String(this.score));
+    setT(this.wTxt, WNAME[this.weapon]); this.wlvTxt.setText('Lv.' + this.wlv);
   }
   togglePause() { if (this.over) return; this.paused = !this.paused; this.pauseUI.setVisible(this.paused); }
-  showToast(s) { this.toast.setText(s).setAlpha(1).setY(760); this.tweens.add({ targets: this.toast, alpha: 0, y: 700, duration: 900, delay: 300 }); }
+  showToast(s) { setT(this.toast, s).setAlpha(1).setY(760); this.tweens.add({ targets: this.toast, alpha: 0, y: 700, duration: 900, delay: 300 }); }
   setTurret() { const k = 'char_turret_' + this.weapon + '_lv' + this.wlv; this.player.setTexture(k); if (this.pflash) this.pflash.setTexture(k); }
 
   update(t, dt) {
@@ -273,7 +300,7 @@ class Game extends Phaser.Scene {
     this.fireTimer -= dt;
     if (this.fireTimer <= 0 && this.head.y > 80) { this.spitFire(); this.fireTimer = this.cfg.fireEvery * this.rnd.realInRange(0.7, 1.3); }
     this.updateLaser(dt); this.updateBullets(s); this.updateFireballs(s); this.updateItems(s);
-    if (this.headD >= this.endD && !this.over) this.finish(false, '黑龙冲到了底部！');
+    if (this.headD >= this.endD && !this.over) this.finish(false, 'rBottom');
   }
   layoutDragon(s) {
     const place = (o) => {
@@ -298,22 +325,22 @@ class Game extends Phaser.Scene {
         g.lineStyle(5, 0x8a8f9c, 1).strokeEllipse(h.x + Math.cos(a) * R, h.y + Math.sin(a) * R, i % 2 ? 16 : 10, i % 2 ? 10 : 16); }
       g.fillStyle(0x3b3f4a).fillRoundedRect(h.x - 15, h.y - 6, 30, 24, 5).lineStyle(5, 0x3b3f4a).strokeCircle(h.x, h.y - 8, 10).fillStyle(0xffd94a).fillCircle(h.x, h.y + 5, 4);
       const left = this.segs.length - Math.floor(this.segTotal / 2);
-      this.setBanner('再碎 ' + left + ' 节破盾', '#bff0ff', 0x0e2a4a);
+      this.setBanner(T('shieldLeft', left), '#bff0ff', 0x0e2a4a);
     } else {
       g.lineStyle(4, 0xff5a3c, 0.9).strokeCircle(h.x, h.y, 60);
-      if (this.time.now > this.bannerHold) this.setBanner('集火龙头！剩余 ' + Math.max(0, h.hp), '#ffd0c0', 0x4a0e14);
+      if (this.time.now > this.bannerHold) this.setBanner(T('focusHead', Math.max(0, h.hp)), '#ffd0c0', 0x4a0e14);
     }
   }
   setBanner(t, color, bgc) {
     const key = t + color; if (key === this.bannerKey) return; this.bannerKey = key;
-    this.headHpTxt.setText(t).setColor(color);
-    const w = Math.max(300, this.headHpTxt.width + 56);
+    this.headHpTxt.maxW = W - 90; setT(this.headHpTxt, t).setColor(color);
+    const w = Math.min(W - 40, Math.max(300, this.headHpTxt.displayWidth + 56));
     this.bannerBg.clear().fillStyle(bgc, 0.72).fillRoundedRect(W / 2 - w / 2, 148, w, 44, 22).lineStyle(3, 0xffffff, 0.5).strokeRoundedRect(W / 2 - w / 2, 148, w, 44, 22);
   }
   unlockHead() {
     const h = this.head; if (!h.locked) return; h.locked = false; this.unlockT = this.time.now;
-    SFX.play('unlock'); this.setBanner('龙头护盾破碎！', '#ffe14a', 0x5a2a00); this.bannerHold = this.time.now + 2000;
-    this.tweens.add({ targets: this.headHpTxt, scale: { from: 1.4, to: 1 }, duration: 300, ease: 'Back.out' }); this.cameras.main.flash(250, 255, 255, 255);
+    SFX.play('unlock'); this.setBanner(T('shieldBreak'), '#ffe14a', 0x5a2a00); this.bannerHold = this.time.now + 2000;
+    const s0 = this.headHpTxt.scaleX; this.tweens.add({ targets: this.headHpTxt, scale: { from: s0 * 1.25, to: s0 }, duration: 300, ease: 'Back.out' }); this.cameras.main.flash(250, 255, 255, 255);
     for (let i = 0; i < 12; i++) { const a = i * Math.PI / 6, p = this.add.rectangle(h.x, h.y, 12, 8, 0x9fe6ff);
       this.tweens.add({ targets: p, x: h.x + Math.cos(a) * 140, y: h.y + Math.sin(a) * 140, alpha: 0, angle: 360, duration: 600, onComplete: () => p.destroy() }); }
   }
@@ -391,7 +418,7 @@ class Game extends Phaser.Scene {
     if (this.time.now - (o.lastFlash || 0) > 220) { o.lastFlash = this.time.now; o.flash.setAlpha(0.6); this.tweens.killTweensOf(o.flash); this.tweens.add({ targets: o.flash, alpha: 0, duration: 110 }); }
     if (o.hp <= 0) {
       o.dead = true;
-      if (o.kind === 'head') { this.headShield.clear(); this.headHpTxt.setText(''); this.bannerBg.clear(); this.boom(o.x, o.y, 1.2); this.score += 2000; this.finish(true, '击碎龙头！'); return; }
+      if (o.kind === 'head') { this.headShield.clear(); this.headHpTxt.setText(''); this.bannerBg.clear(); this.boom(o.x, o.y, 1.2); this.score += 2000; this.finish(true, 'rHead'); return; }
       this.killSeg(o);
     }
     this.updateHUD();
@@ -403,7 +430,7 @@ class Game extends Phaser.Scene {
     if (this.head.locked && this.segs.length <= Math.floor(this.segTotal / 2)) this.unlockHead();
     this.segs.forEach((sg, j) => sg.slot = j + 1); this.tail.slot = this.segs.length + 1;
     if (!window.__noDrops && this.rnd.frac() < 0.3) this.dropItem(o.x, o.y);
-    if (this.segs.length === 0) { this.score += 1500; this.finish(true, '龙身全部击碎！'); }
+    if (this.segs.length === 0) { this.score += 1500; this.finish(true, 'rBody'); }
   }
   boom(x, y, sc) { const f = this.add.sprite(x, y, 'fx_body_break', 'fx_body_break_00').setScale(sc); f.play('fx_body_break_anim'); f.once('animationcomplete', () => f.destroy()); }
   dropItem(x, y, key) {
@@ -423,14 +450,14 @@ class Game extends Phaser.Scene {
     switch (key) {
       case 'item_weapon_crate': {
         const others = WEAPONS.filter(w => w !== this.weapon);
-        if (this.wlv < 3 && this.rnd.frac() < 0.5) { this.wlv++; this.showToast(WNAME[this.weapon] + ' 升级 Lv.' + this.wlv); }
-        else { this.weapon = this.rnd.pick(others); this.wlv = Math.max(1, this.wlv - 1) || 1; this.showToast((unlock(this.weapon) ? '解锁新武器：' : '换武器：') + WNAME[this.weapon]); }
+        if (this.wlv < 3 && this.rnd.frac() < 0.5) { this.wlv++; this.showToast(T('wUp', WNAME[this.weapon], this.wlv)); }
+        else { this.weapon = this.rnd.pick(others); this.wlv = Math.max(1, this.wlv - 1) || 1; this.showToast(T(unlock(this.weapon) ? 'wNew' : 'wSwap', WNAME[this.weapon])); }
         this.setTurret(); break;
       }
-      case 'item_attack_up': this.atk = Math.min(4, this.atk + 0.25); this.showToast('攻击 +'); break;
-      case 'item_firerate_up': this.rate = Math.min(2.5, this.rate + 0.15); this.showToast('射速 +'); break;
-      case 'item_health': this.hp = Math.min(this.maxHp, this.hp + 1); this.showToast('生命 +1'); break;
-      case 'item_shield': this.shield = 6000; this.showToast('护盾！'); break;
+      case 'item_attack_up': this.atk = Math.min(4, this.atk + 0.25); this.showToast(T('atk')); break;
+      case 'item_firerate_up': this.rate = Math.min(2.5, this.rate + 0.15); this.showToast(T('rate')); break;
+      case 'item_health': this.hp = Math.min(this.maxHp, this.hp + 1); this.showToast(T('hp')); break;
+      case 'item_shield': this.shield = 6000; this.showToast(T('shield')); break;
       case 'item_coin': this.score += 200; this.coins++; this.showToast('+200'); break;
     }
     this.updateHUD();
@@ -456,7 +483,7 @@ class Game extends Phaser.Scene {
     this.inv = 1400; SFX.play('hurt');
     this.hp--; this.updateHUD(); this.cameras.main.shake(150, 0.01);
     this.tweens.killTweensOf(this.pflash); this.pflash.setAlpha(0.8); this.tweens.add({ targets: this.pflash, alpha: 0, duration: 150, yoyo: true, repeat: 1 });
-    if (this.hp <= 0) this.finish(false, '炮台被击毁了！');
+    if (this.hp <= 0) this.finish(false, 'rDead');
   }
   finish(win, reason) {
     if (this.over) return; this.over = true; saveBest(this.score); SFX.play(win ? 'win' : 'lose'); if (this.beam) { this.beam.setVisible(false); this.beamGlow.clear(); } this.tweens.killTweensOf(this.pflash); this.pflash.setAlpha(0);
@@ -474,24 +501,24 @@ class Result extends Phaser.Scene {
     const nb = d.score >= best() && d.score > 0;
     if (d.win) {
       this.add.nineslice(W / 2, 640, 'ui_panel_result', null, 600, 900, 80, 80, 140, 80);
-      txt(this, W / 2, 255, '第 ' + d.level + ' 关 通关！', 56, '#ffe14a', '#5a2a00');
+      txt(this, W / 2, 255, T('clear', d.level), 56, '#ffe14a', '#5a2a00');
       const stars = d.hp >= 4 ? 3 : d.hp >= 2 ? 2 : 1;
       for (let i = 0; i < 3; i++) { const st = this.add.image(W / 2 + (i - 1) * 140, 400 - (i === 1 ? 20 : 0), i < stars ? 'ui_star_full' : 'ui_star_empty').setScale(0.8 + (i === 1 ? 0.15 : 0)).setScale(0); this.tweens.add({ targets: st, scale: 0.85 + (i === 1 ? 0.15 : 0), delay: 200 * i, duration: 300, ease: 'Back.out' }); }
       this.add.image(W / 2, 600, 'char_turret_happy').setScale(0.6);
       this.add.nineslice(W / 2, 790, 'ui_stat_box', null, 470, 110, 40, 40, 30, 30);
-      txt(this, W / 2, 790, '得分  ' + d.score, 44);
-      txt(this, W / 2, 870, (nb ? '新纪录！' : '最高分  ' + best()), 32, '#ffe680');
-      button(this, W / 2 - 130, 990, 'ui_btn_blue', '主页', 1, () => this.go('Start'));
-      button(this, W / 2 + 130, 990, 'ui_btn_green', '下一关', 1, () => this.go('Game', { level: d.level + 1, score: d.score, carry: d.carry }));
+      txt(this, W / 2, 790, T('score', d.score), 44, '#fff', null, 430);
+      txt(this, W / 2, 870, (nb ? T('newBest') : T('best', best())), 32, '#ffe680');
+      button(this, W / 2 - 130, 990, 'ui_btn_blue', T('homeShort'), 1, () => this.go('Start'));
+      button(this, W / 2 + 130, 990, 'ui_btn_green', T('next'), 1, () => this.go('Game', { level: d.level + 1, score: d.score, carry: d.carry }));
     } else {
       this.add.image(W / 2, 360, 'char_turret_broken').setScale(0.7);
       this.add.nineslice(W / 2, 720, 'ui_panel_fail', null, 620, 500, 60, 60, 60, 60);
-      txt(this, W / 2, 545, '挑战失败', 64, '#ff6a5a', '#3a0a0a');
-      txt(this, W / 2, 630, d.reason, 32);
-      txt(this, W / 2, 700, '得分  ' + d.score, 44);
-      txt(this, W / 2, 760, '最高分  ' + best(), 30, '#ffe680');
-      button(this, W / 2 - 140, 870, 'ui_btn_blue', '主页', 1, () => this.go('Start'));
-      button(this, W / 2 + 140, 870, 'ui_btn_orange', '再来一次', 0.85, () => this.go('Game', { level: d.level, score: 0 }));
+      txt(this, W / 2, 545, T('fail'), 64, '#ff6a5a', '#3a0a0a');
+      txt(this, W / 2, 630, T(d.reason), 32, '#fff', null, 560);
+      txt(this, W / 2, 700, T('score', d.score), 44);
+      txt(this, W / 2, 760, T('best', best()), 30, '#ffe680');
+      button(this, W / 2 - 140, 870, 'ui_btn_blue', T('homeShort'), 1, () => this.go('Start'));
+      button(this, W / 2 + 140, 870, 'ui_btn_orange', T('retry'), 0.85, () => this.go('Game', { level: d.level, score: 0 }));
     }
   }
   go(k, data) { window.__result = null; this.scene.stop('Game'); this.scene.start(k, data); }
