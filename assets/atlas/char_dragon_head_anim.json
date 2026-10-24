@@ -1,0 +1,55 @@
+{
+ "frames": {
+  "char_dragon_head_anim_00": {
+   "frame": {
+    "x": 2,
+    "y": 2,
+    "w": 153,
+    "h": 220
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 153,
+    "h": 220
+   },
+   "sourceSize": {
+    "w": 153,
+    "h": 220
+   }
+  },
+  "char_dragon_head_anim_01": {
+   "frame": {
+    "x": 157,
+    "y": 2,
+    "w": 153,
+    "h": 220
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 153,
+    "h": 220
+   },
+   "sourceSize": {
+    "w": 153,
+    "h": 220
+   }
+  }
+ },
+ "meta": {
+  "app": "build_assets.py",
+  "version": "1.0",
+  "image": "char_dragon_head_anim.png",
+  "format": "RGBA8888",
+  "size": {
+   "w": 312,
+   "h": 224
+  },
+  "scale": "1"
+ }
+}

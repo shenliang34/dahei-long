@@ -1,0 +1,75 @@
+{
+ "frames": {
+  "fx_flame_00": {
+   "frame": {
+    "x": 2,
+    "y": 2,
+    "w": 147,
+    "h": 200
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 147,
+    "h": 200
+   },
+   "sourceSize": {
+    "w": 147,
+    "h": 200
+   }
+  },
+  "fx_flame_01": {
+   "frame": {
+    "x": 151,
+    "y": 2,
+    "w": 147,
+    "h": 200
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 147,
+    "h": 200
+   },
+   "sourceSize": {
+    "w": 147,
+    "h": 200
+   }
+  },
+  "fx_flame_02": {
+   "frame": {
+    "x": 300,
+    "y": 2,
+    "w": 147,
+    "h": 200
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 147,
+    "h": 200
+   },
+   "sourceSize": {
+    "w": 147,
+    "h": 200
+   }
+  }
+ },
+ "meta": {
+  "app": "build_assets.py",
+  "version": "1.0",
+  "image": "fx_flame.png",
+  "format": "RGBA8888",
+  "size": {
+   "w": 449,
+   "h": 204
+  },
+  "scale": "1"
+ }
+}

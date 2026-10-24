@@ -1,0 +1,674 @@
+{
+ "meta": {
+  "game": "打黑龙",
+  "resolution": [
+   720,
+   1280
+  ],
+  "generated_by": "tools/build_assets.py"
+ },
+ "images": [
+  {
+   "key": "char_dragon_head",
+   "type": "image",
+   "file": "sprites/char_dragon_head.png",
+   "width": 157,
+   "height": 220,
+   "category": "char",
+   "source": "char_dragon_head.png"
+  },
+  {
+   "key": "char_dragon_head_fire",
+   "type": "image",
+   "file": "sprites/char_dragon_head_fire.png",
+   "width": 152,
+   "height": 220,
+   "category": "char",
+   "source": "char_dragon_head_fire.png"
+  },
+  {
+   "key": "char_dragon_body",
+   "type": "image",
+   "file": "sprites/char_dragon_body.png",
+   "width": 155,
+   "height": 170,
+   "category": "char",
+   "source": "char_dragon_body.png"
+  },
+  {
+   "key": "char_dragon_body_hit",
+   "type": "image",
+   "file": "sprites/char_dragon_body_hit.png",
+   "width": 155,
+   "height": 170,
+   "category": "char",
+   "source": "char_dragon_body_hit.png"
+  },
+  {
+   "key": "char_dragon_tail",
+   "type": "image",
+   "file": "sprites/char_dragon_tail.png",
+   "width": 102,
+   "height": 200,
+   "category": "char",
+   "source": "char_dragon_tail.png"
+  },
+  {
+   "key": "char_turret",
+   "type": "image",
+   "file": "sprites/char_turret.png",
+   "width": 256,
+   "height": 246,
+   "category": "char",
+   "source": "char_turret.png"
+  },
+  {
+   "key": "item_weapon_crate",
+   "type": "image",
+   "file": "sprites/item_weapon_crate.png",
+   "width": 112,
+   "height": 108,
+   "category": "item",
+   "source": "item_weapon_crate.png"
+  },
+  {
+   "key": "item_attack_up",
+   "type": "image",
+   "file": "sprites/item_attack_up.png",
+   "width": 100,
+   "height": 112,
+   "category": "item",
+   "source": "item_attack_up.png"
+  },
+  {
+   "key": "item_firerate_up",
+   "type": "image",
+   "file": "sprites/item_firerate_up.png",
+   "width": 84,
+   "height": 112,
+   "category": "item",
+   "source": "item_firerate_up.png"
+  },
+  {
+   "key": "item_health",
+   "type": "image",
+   "file": "sprites/item_health.png",
+   "width": 112,
+   "height": 107,
+   "category": "item",
+   "source": "item_health.png"
+  },
+  {
+   "key": "item_shield",
+   "type": "image",
+   "file": "sprites/item_shield.png",
+   "width": 112,
+   "height": 111,
+   "category": "item",
+   "source": "item_shield.png"
+  },
+  {
+   "key": "item_coin",
+   "type": "image",
+   "file": "sprites/item_coin.png",
+   "width": 104,
+   "height": 112,
+   "category": "item",
+   "source": "item_coin.png"
+  },
+  {
+   "key": "bullet_dragon_fireball",
+   "type": "image",
+   "file": "sprites/bullet_dragon_fireball.png",
+   "width": 61,
+   "height": 128,
+   "category": "bullet",
+   "source": "fx_fireball.png"
+  },
+  {
+   "key": "char_turret_machinegun_lv1",
+   "type": "image",
+   "file": "sprites/char_turret_machinegun_lv1.png",
+   "width": 221,
+   "height": 256,
+   "category": "char",
+   "source": "turret_machinegun_lv1.png"
+  },
+  {
+   "key": "bullet_machinegun_lv1",
+   "type": "image",
+   "file": "sprites/bullet_machinegun_lv1.png",
+   "width": 29,
+   "height": 400,
+   "category": "bullet",
+   "source": "weapon_machinegun_lv1.png"
+  },
+  {
+   "key": "char_turret_machinegun_lv2",
+   "type": "image",
+   "file": "sprites/char_turret_machinegun_lv2.png",
+   "width": 217,
+   "height": 256,
+   "category": "char",
+   "source": "turret_machinegun_lv2.png"
+  },
+  {
+   "key": "bullet_machinegun_lv2",
+   "type": "image",
+   "file": "sprites/bullet_machinegun_lv2.png",
+   "width": 94,
+   "height": 400,
+   "category": "bullet",
+   "source": "weapon_machinegun_lv2.png"
+  },
+  {
+   "key": "char_turret_machinegun_lv3",
+   "type": "image",
+   "file": "sprites/char_turret_machinegun_lv3.png",
+   "width": 180,
+   "height": 256,
+   "category": "char",
+   "source": "turret_machinegun_lv3.png"
+  },
+  {
+   "key": "bullet_machinegun_lv3",
+   "type": "image",
+   "file": "sprites/bullet_machinegun_lv3.png",
+   "width": 169,
+   "height": 400,
+   "category": "bullet",
+   "source": "weapon_machinegun_lv3.png"
+  },
+  {
+   "key": "bullet_machinegun_base",
+   "type": "image",
+   "file": "sprites/bullet_machinegun_base.png",
+   "width": 122,
+   "height": 256,
+   "category": "bullet",
+   "source": "weapon_machinegun.png"
+  },
+  {
+   "key": "char_turret_shotgun_lv1",
+   "type": "image",
+   "file": "sprites/char_turret_shotgun_lv1.png",
+   "width": 234,
+   "height": 256,
+   "category": "char",
+   "source": "turret_shotgun_lv1.png"
+  },
+  {
+   "key": "bullet_shotgun_lv1",
+   "type": "image",
+   "file": "sprites/bullet_shotgun_lv1.png",
+   "width": 208,
+   "height": 365,
+   "category": "bullet",
+   "source": "weapon_shotgun_lv1.png"
+  },
+  {
+   "key": "char_turret_shotgun_lv2",
+   "type": "image",
+   "file": "sprites/char_turret_shotgun_lv2.png",
+   "width": 227,
+   "height": 256,
+   "category": "char",
+   "source": "turret_shotgun_lv2.png"
+  },
+  {
+   "key": "bullet_shotgun_lv2",
+   "type": "image",
+   "file": "sprites/bullet_shotgun_lv2.png",
+   "width": 400,
+   "height": 381,
+   "category": "bullet",
+   "source": "weapon_shotgun_lv2.png"
+  },
+  {
+   "key": "char_turret_shotgun_lv3",
+   "type": "image",
+   "file": "sprites/char_turret_shotgun_lv3.png",
+   "width": 206,
+   "height": 256,
+   "category": "char",
+   "source": "turret_shotgun_lv3.png"
+  },
+  {
+   "key": "bullet_shotgun_lv3",
+   "type": "image",
+   "file": "sprites/bullet_shotgun_lv3.png",
+   "width": 400,
+   "height": 386,
+   "category": "bullet",
+   "source": "weapon_shotgun_lv3.png"
+  },
+  {
+   "key": "bullet_shotgun_base",
+   "type": "image",
+   "file": "sprites/bullet_shotgun_base.png",
+   "width": 256,
+   "height": 247,
+   "category": "bullet",
+   "source": "weapon_shotgun.png"
+  },
+  {
+   "key": "char_turret_laser_lv1",
+   "type": "image",
+   "file": "sprites/char_turret_laser_lv1.png",
+   "width": 191,
+   "height": 256,
+   "category": "char",
+   "source": "turret_laser_lv1.png"
+  },
+  {
+   "key": "bullet_laser_lv1",
+   "type": "image",
+   "file": "sprites/bullet_laser_lv1.png",
+   "width": 101,
+   "height": 400,
+   "category": "bullet",
+   "source": "weapon_laser_lv1.png"
+  },
+  {
+   "key": "char_turret_laser_lv2",
+   "type": "image",
+   "file": "sprites/char_turret_laser_lv2.png",
+   "width": 181,
+   "height": 256,
+   "category": "char",
+   "source": "turret_laser_lv2.png"
+  },
+  {
+   "key": "bullet_laser_lv2",
+   "type": "image",
+   "file": "sprites/bullet_laser_lv2.png",
+   "width": 156,
+   "height": 400,
+   "category": "bullet",
+   "source": "weapon_laser_lv2.png"
+  },
+  {
+   "key": "char_turret_laser_lv3",
+   "type": "image",
+   "file": "sprites/char_turret_laser_lv3.png",
+   "width": 174,
+   "height": 256,
+   "category": "char",
+   "source": "turret_laser_lv3.png"
+  },
+  {
+   "key": "bullet_laser_lv3",
+   "type": "image",
+   "file": "sprites/bullet_laser_lv3.png",
+   "width": 215,
+   "height": 400,
+   "category": "bullet",
+   "source": "weapon_laser_lv3.png"
+  },
+  {
+   "key": "bullet_laser_base",
+   "type": "image",
+   "file": "sprites/bullet_laser_base.png",
+   "width": 117,
+   "height": 256,
+   "category": "bullet",
+   "source": "weapon_laser.png"
+  },
+  {
+   "key": "char_turret_missile_lv1",
+   "type": "image",
+   "file": "sprites/char_turret_missile_lv1.png",
+   "width": 203,
+   "height": 256,
+   "category": "char",
+   "source": "turret_missile_lv1.png"
+  },
+  {
+   "key": "bullet_missile_lv1",
+   "type": "image",
+   "file": "sprites/bullet_missile_lv1.png",
+   "width": 179,
+   "height": 349,
+   "category": "bullet",
+   "source": "weapon_missile_lv1.png"
+  },
+  {
+   "key": "char_turret_missile_lv2",
+   "type": "image",
+   "file": "sprites/char_turret_missile_lv2.png",
+   "width": 207,
+   "height": 256,
+   "category": "char",
+   "source": "turret_missile_lv2.png"
+  },
+  {
+   "key": "bullet_missile_lv2",
+   "type": "image",
+   "file": "sprites/bullet_missile_lv2.png",
+   "width": 335,
+   "height": 400,
+   "category": "bullet",
+   "source": "weapon_missile_lv2.png"
+  },
+  {
+   "key": "char_turret_missile_lv3",
+   "type": "image",
+   "file": "sprites/char_turret_missile_lv3.png",
+   "width": 191,
+   "height": 256,
+   "category": "char",
+   "source": "turret_missile_lv3.png"
+  },
+  {
+   "key": "bullet_missile_lv3",
+   "type": "image",
+   "file": "sprites/bullet_missile_lv3.png",
+   "width": 360,
+   "height": 400,
+   "category": "bullet",
+   "source": "weapon_missile_lv3.png"
+  },
+  {
+   "key": "bullet_missile_base",
+   "type": "image",
+   "file": "sprites/bullet_missile_base.png",
+   "width": 126,
+   "height": 256,
+   "category": "bullet",
+   "source": "weapon_missile.png"
+  },
+  {
+   "key": "ui_btn_green_large",
+   "type": "image",
+   "file": "ui/ui_btn_green_large.png",
+   "width": 387,
+   "height": 125,
+   "category": "ui",
+   "source": "screen_start.png",
+   "note": "text removed; render label in code"
+  },
+  {
+   "key": "ui_btn_green",
+   "type": "image",
+   "file": "ui/ui_btn_green.png",
+   "width": 225,
+   "height": 108,
+   "category": "ui",
+   "source": "screen_result.png",
+   "note": "text removed; render label in code"
+  },
+  {
+   "key": "ui_btn_blue",
+   "type": "image",
+   "file": "ui/ui_btn_blue.png",
+   "width": 222,
+   "height": 107,
+   "category": "ui",
+   "source": "screen_result.png",
+   "note": "text removed; render label in code"
+  },
+  {
+   "key": "ui_btn_orange",
+   "type": "image",
+   "file": "ui/ui_btn_orange.png",
+   "width": 291,
+   "height": 115,
+   "category": "ui",
+   "source": "screen_fail.png",
+   "note": "text removed; render label in code"
+  },
+  {
+   "key": "ui_btn_blue_wide",
+   "type": "image",
+   "file": "ui/ui_btn_blue_wide.png",
+   "width": 291,
+   "height": 115,
+   "category": "ui",
+   "source": "screen_fail.png",
+   "note": "text removed; render label in code"
+  },
+  {
+   "key": "ui_star_full_small",
+   "type": "image",
+   "file": "ui/ui_star_full_small.png",
+   "width": 121,
+   "height": 124,
+   "category": "ui",
+   "source": "screen_result.png"
+  },
+  {
+   "key": "ui_star_full",
+   "type": "image",
+   "file": "ui/ui_star_full.png",
+   "width": 131,
+   "height": 134,
+   "category": "ui",
+   "source": "screen_result.png"
+  },
+  {
+   "key": "ui_star_empty",
+   "type": "image",
+   "file": "ui/ui_star_empty.png",
+   "width": 131,
+   "height": 134,
+   "category": "ui",
+   "source": "derived from ui_star_full (desaturated)"
+  },
+  {
+   "key": "ui_panel_result",
+   "type": "image",
+   "file": "ui/ui_panel_result.png",
+   "width": 559,
+   "height": 825,
+   "category": "ui",
+   "source": "screen_result.png",
+   "note": "interior blank; use as 9-slice (nineslice) or scale"
+  },
+  {
+   "key": "ui_panel_fail",
+   "type": "image",
+   "file": "ui/ui_panel_fail.png",
+   "width": 657,
+   "height": 346,
+   "category": "ui",
+   "source": "screen_fail.png",
+   "note": "interior blank; use as 9-slice (nineslice) or scale"
+  },
+  {
+   "key": "ui_stat_box",
+   "type": "image",
+   "file": "ui/ui_stat_box.png",
+   "width": 470,
+   "height": 137,
+   "category": "ui",
+   "source": "screen_result.png",
+   "note": "text removed"
+  },
+  {
+   "key": "ui_hp_fill",
+   "type": "image",
+   "file": "ui/ui_hp_fill.png",
+   "width": 158,
+   "height": 29,
+   "category": "ui",
+   "source": "battle_main.png",
+   "note": "crop horizontally (setCrop) for HP %"
+  },
+  {
+   "key": "ui_hp_frame",
+   "type": "image",
+   "file": "ui/ui_hp_frame.png",
+   "width": 261,
+   "height": 49,
+   "category": "ui",
+   "source": "battle_main.png",
+   "note": "track empty; draw \"3/5\" in code"
+  },
+  {
+   "key": "ui_btn_pause",
+   "type": "image",
+   "file": "ui/ui_btn_pause.png",
+   "width": 65,
+   "height": 69,
+   "category": "ui",
+   "source": "battle_main.png"
+  },
+  {
+   "key": "ui_weapon_badge",
+   "type": "image",
+   "file": "ui/ui_weapon_badge.png",
+   "width": 135,
+   "height": 105,
+   "category": "ui",
+   "source": "battle_main.png",
+   "note": "text removed (weapon name / Lv)"
+  },
+  {
+   "key": "char_dragon_title",
+   "type": "image",
+   "file": "sprites/char_dragon_title.png",
+   "width": 541,
+   "height": 554,
+   "category": "char",
+   "source": "screen_start.png",
+   "note": "start-screen hero dragon; bottom may be clipped by logo"
+  },
+  {
+   "key": "char_turret_happy",
+   "type": "image",
+   "file": "sprites/char_turret_happy.png",
+   "width": 305,
+   "height": 301,
+   "category": "char",
+   "source": "screen_result.png"
+  },
+  {
+   "key": "char_turret_broken",
+   "type": "image",
+   "file": "sprites/char_turret_broken.png",
+   "width": 443,
+   "height": 424,
+   "category": "char",
+   "source": "screen_fail.png",
+   "note": "smoke may be partially kept"
+  }
+ ],
+ "atlases": [
+  {
+   "key": "fx_body_break",
+   "type": "atlas",
+   "format": "JSON Hash",
+   "textureURL": "atlas/fx_body_break.png",
+   "atlasURL": "atlas/fx_body_break.json",
+   "width": 1034,
+   "height": 260,
+   "frameWidth": 256,
+   "frameHeight": 256,
+   "frameCount": 4,
+   "frames": [
+    "fx_body_break_00",
+    "fx_body_break_01",
+    "fx_body_break_02",
+    "fx_body_break_03"
+   ],
+   "anim": {
+    "key": "fx_body_break_anim",
+    "frameRate": 14,
+    "repeat": 0
+   },
+   "anchor": "center",
+   "source": "fx_body_break_f1-4.png"
+  },
+  {
+   "key": "fx_flame",
+   "type": "atlas",
+   "format": "JSON Hash",
+   "textureURL": "atlas/fx_flame.png",
+   "atlasURL": "atlas/fx_flame.json",
+   "width": 449,
+   "height": 204,
+   "frameWidth": 147,
+   "frameHeight": 200,
+   "frameCount": 3,
+   "frames": [
+    "fx_flame_00",
+    "fx_flame_01",
+    "fx_flame_02"
+   ],
+   "anim": {
+    "key": "fx_flame_anim",
+    "frameRate": 10,
+    "repeat": -1
+   },
+   "anchor": "top-center",
+   "source": "fx_flame_f1-3.png"
+  },
+  {
+   "key": "char_dragon_head_anim",
+   "type": "atlas",
+   "format": "JSON Hash",
+   "textureURL": "atlas/char_dragon_head_anim.png",
+   "atlasURL": "atlas/char_dragon_head_anim.json",
+   "width": 312,
+   "height": 224,
+   "frameWidth": 153,
+   "frameHeight": 220,
+   "frameCount": 2,
+   "frames": [
+    "char_dragon_head_anim_00",
+    "char_dragon_head_anim_01"
+   ],
+   "anim": {
+    "key": "char_dragon_head_anim_anim",
+    "frameRate": 4,
+    "repeat": 0
+   },
+   "anchor": "center",
+   "source": "char_dragon_head(+_fire).png"
+  }
+ ],
+ "backgrounds": [
+  {
+   "key": "bg_sky_far",
+   "type": "image",
+   "file": "bg/bg_sky_far.png",
+   "width": 720,
+   "height": 1280,
+   "tileY": true,
+   "usage": "this.add.tileSprite(0,0,720,1280,key).setOrigin(0); tilePositionY -= speed",
+   "note": "far layer, scroll slowest",
+   "seamCheck": {
+    "wrapRowDiff": 0.0,
+    "avgAdjacentRowDiff": 0.11
+   }
+  },
+  {
+   "key": "bg_clouds_mid",
+   "type": "image",
+   "file": "bg/bg_clouds_mid.png",
+   "width": 720,
+   "height": 1280,
+   "tileY": true,
+   "usage": "this.add.tileSprite(0,0,720,1280,key).setOrigin(0); tilePositionY -= speed",
+   "note": "mid cloud layer, transparent",
+   "seamCheck": {
+    "wrapRowDiff": 0.0,
+    "avgAdjacentRowDiff": 0.83
+   }
+  },
+  {
+   "key": "bg_near",
+   "type": "image",
+   "file": "bg/bg_near.png",
+   "width": 720,
+   "height": 1280,
+   "tileY": true,
+   "usage": "this.add.tileSprite(0,0,720,1280,key).setOrigin(0); tilePositionY -= speed",
+   "note": "near cloud layer, transparent, scroll fastest",
+   "seamCheck": {
+    "wrapRowDiff": 0.0,
+    "avgAdjacentRowDiff": 0.79
+   }
+  }
+ ]
+}
